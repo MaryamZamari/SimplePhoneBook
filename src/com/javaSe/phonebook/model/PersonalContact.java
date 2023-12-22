@@ -10,6 +10,7 @@ public class PersonalContact extends Contact{
         this.surname= capitaliseFirstLetter(surname);
         String nameSurname= surname + "." + name;
         idTracker.put(id, nameSurname);
+        System.out.println("personal contact created");
     }
 
     public String getSurname() {

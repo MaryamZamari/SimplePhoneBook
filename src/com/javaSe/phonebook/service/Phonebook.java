@@ -8,8 +8,16 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class Phonebook {
+    private int id;
+    private static int idCounter= 0;
     private List<Contact> contactList;
+    public Phonebook(int id, List<Contact> contacts){
+        this.id= id;
+        this.contactList= contacts;
+    }
+
     public Phonebook(List<Contact> contacts){
+        this.id= generateUniqueId();
         this.contactList= contacts;
     }
     public Phonebook(){}
@@ -21,6 +29,10 @@ public class Phonebook {
         } else {
             System.out.println("the contact does not exist. try a valid id!");
         }
+    }
+
+    private static int generateUniqueId(){
+        return idCounter++;
     }
 
     public void removeContact(int id){

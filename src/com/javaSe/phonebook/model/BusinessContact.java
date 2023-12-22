@@ -12,6 +12,10 @@ public class BusinessContact extends Contact{
         idTracker.put(id, vatNumber);
     }
 
+    public String getVatNumber(){
+        return this.vatNumber;
+    }
+
 
 
 

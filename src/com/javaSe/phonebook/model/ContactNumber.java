@@ -23,6 +23,7 @@ public class ContactNumber {
     }
 
     public ContactNumber(String number, ContactType type) {
+        this.id= generateUniqueId();
         this.number = number;
         this.type= type;
     }

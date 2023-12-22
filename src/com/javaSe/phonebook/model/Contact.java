@@ -1,9 +1,6 @@
 package com.javaSe.phonebook.model;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public abstract class Contact {
     private static int idCounter= 0;
@@ -47,15 +44,25 @@ public abstract class Contact {
         this.name = capitaliseFirstLetter(name);
     }
 
-    public String getNumbers() {
-        return numbers.toString();
+    public List<ContactNumber> getNumbers() {
+         return this.numbers;
     }
 
-    public void setNumber(int id , ContactNumber newNumber) {
+    public ContactNumber getNumber(int id){
+        ContactNumber number= null;
+        for(ContactNumber n: numbers){
+            if(n.getId()== id){
+                number= numbers.get(id);
+            }
+        }
+        return number;
+    }
+
+    //type can not be modified, so only the number will be modified.
+    public void setNumber(int id , String newNumber) {
         Optional<ContactNumber> currentNumber = Optional.ofNullable(this.numbers.get(id));
         if (currentNumber.isPresent()) {
-            currentNumber.get().setNumber(newNumber.getNumber());
-            currentNumber.get().setType(newNumber.getType());
+            currentNumber.get().setNumber(newNumber);
             System.out.println(currentNumber.toString() + " changed to: " + newNumber.toString());
         } else {
             System.out.println("The requested number does not exist!");
@@ -82,7 +89,7 @@ public abstract class Contact {
                     "the requested contact" +
                     "are as follows: ");
             for(ContactNumber n: numbers){
-                System.out.println(n);
+                System.out.println(n.toString());
             }
          }else{
             System.out.println("There is no number associated to " +

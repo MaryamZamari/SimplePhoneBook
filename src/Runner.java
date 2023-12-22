@@ -26,7 +26,7 @@ public class Runner {
                     break;
                 case 2:
                     int contactId= runner.getContactIdFromUser(input);
-                    newContact= runner.createContactFromInput(input);
+                    newContact= runner.getContactInfoFromUserForEdit(input);
                     phonebook.setContactList(contactId, newContact);
                     break;
                 case 3:
@@ -47,6 +47,8 @@ public class Runner {
 
 
     }
+
+
 
     public void printMenu() {
         System.out.println();
@@ -91,15 +93,34 @@ public class Runner {
         }
         System.out.println("Enter P for Personal and B for business contact: ");
         char typeInput = input.next().toUpperCase().charAt(0);
+        input.nextLine();
         if(typeInput == 'P'){
             System.out.println("Enter surname: ");
-            surname= input.nextLine();
+            surname= input.next();
             newContact= new PersonalContact(Contact.generateUniqueId(), name, surname, numbers);
         }else if(typeInput == 'B'){
             System.out.println("enter VAT number: ");
-            vatNumber= input.nextLine();
+            vatNumber= input.next();
             newContact= new BusinessContact(Contact.generateUniqueId(), name, numbers, vatNumber);
         }
+        input.nextLine();
+        return newContact;
+    }
+
+    private Contact getContactInfoFromUserForEdit(Scanner input) {
+        System.out.println("enter the id for the contact you want to edit.");
+        int contactId= Integer.parseInt(input.nextLine());
+        Contact newContact= phonebook.getContactList().get(contactId);
+        System.out.println("enter new name:");
+        String name= input.nextLine();
+        System.out.println("enter new surname: ");
+        String surname= input.nextLine();
+        System.out.println("here are the list of numbers associated with this contact, select the id of the one you wish to edit: " + newContact.getNumbers());
+        int id= Integer.parseInt(input.nextLine());
+        ContactNumber oldNumber= newContact.getNumber(id);
+        System.out.println("type the new number: ");
+        String newNumber= input.nextLine();
+        newContact.setNumber(id, newNumber);
         return newContact;
     }
 
