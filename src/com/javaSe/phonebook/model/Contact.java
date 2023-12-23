@@ -4,10 +4,8 @@ import java.util.*;
 
 public abstract class Contact {
     private static int idCounter= 0;
-    public static Map<Integer, String> idTracker= new HashMap<>();
     private int id;
     private String name;
-
     private List<ContactNumber> numbers;
 
     public Contact(int id, String name, List<ContactNumber> numbers) {
@@ -48,21 +46,18 @@ public abstract class Contact {
          return this.numbers;
     }
 
-    public ContactNumber getNumber(int id){
-        ContactNumber number= null;
-        for(ContactNumber n: numbers){
-            if(n.getId()== id){
-                number= numbers.get(id);
-            }
-        }
-        return number;
+    public ContactNumber getNumberById(int id){
+        return numbers.stream()
+                .filter(c -> c.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     //type can not be modified, so only the number will be modified.
     public void setNumber(int id , String newNumber) {
-        Optional<ContactNumber> currentNumber = Optional.ofNullable(this.numbers.get(id));
-        if (currentNumber.isPresent()) {
-            currentNumber.get().setNumber(newNumber);
+        ContactNumber currentNumber = getNumberById(id);
+        if (currentNumber != null) {
+            currentNumber.setNumber(newNumber);
             System.out.println(currentNumber.toString() + " changed to: " + newNumber.toString());
         } else {
             System.out.println("The requested number does not exist!");
@@ -100,7 +95,7 @@ public abstract class Contact {
     @Override
     public String toString() {
         return "com.javaSe.phonebook.model.Contact{" +
-                "id=" + id +
+                " id= " + id +
                 ", name='" + name + '\'' +
                 ", numbers='" + numbers + '\'' +
                 '}';

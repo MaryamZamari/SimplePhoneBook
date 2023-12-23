@@ -25,12 +25,14 @@ public class Runner {
                     phonebook.addContact(newContact);
                     break;
                 case 2:
-                    int contactId= runner.getContactIdFromUser(input);
-                    newContact= runner.getContactInfoFromUserForEdit(input);
+                    System.out.println("enter the id of the contact you wish to change: ");
+                    int contactId= Integer.parseInt(input.nextLine());
+                    newContact= runner.getContactInfoFromUserForEdit(input, contactId);
                     phonebook.setContactList(contactId, newContact);
                     break;
                 case 3:
-                    contactId= runner.getContactIdFromUser(input);
+                    System.out.println("enter the id of the contact you wish to remove: ");
+                    contactId= Integer.parseInt(input.nextLine());
                     phonebook.removeContact(contactId);
                     break;
                 case 4:
@@ -57,25 +59,8 @@ public class Runner {
                 "type 1 for adding a new contact.\n" +
                 "type 2 for editing a contact\n" +
                 "type 3 for removing a contact\n" +
-                "type 4 for printing all the contacts." +
+                "type 4 for printing all the contacts.\n" +
                 "type 0 to exit\n");
-    }
-
-    //get contactId for remove/edit
-    public int getContactIdFromUser(Scanner input){
-        System.out.println("type the name of the contact you wish to retrieve:");
-        String name= input.next().trim();
-        System.out.println("if it is a personal contact, type the surname, otherwise type the VAT number: ");
-        String surname= input.next().trim();
-        String nameSurname= surname + "." + name;
-        Map<Integer, String> idTracker= Contact.idTracker;
-        int id = 0;
-        for(Map.Entry<Integer, String> entry : idTracker.entrySet()){
-            if(entry.getValue().equals(nameSurname)){
-                id= entry.getKey().intValue();
-            }
-        }
-        return id;
     }
 
     public Contact createContactFromInput(Scanner input){
@@ -107,9 +92,7 @@ public class Runner {
         return newContact;
     }
 
-    private Contact getContactInfoFromUserForEdit(Scanner input) {
-        System.out.println("enter the id for the contact you want to edit.");
-        int contactId= Integer.parseInt(input.nextLine());
+    private Contact getContactInfoFromUserForEdit(Scanner input, int contactId) {
         Contact newContact= phonebook.getContactList().get(contactId);
         System.out.println("enter new name:");
         String name= input.nextLine();
@@ -117,7 +100,7 @@ public class Runner {
         String surname= input.nextLine();
         System.out.println("here are the list of numbers associated with this contact, select the id of the one you wish to edit: " + newContact.getNumbers());
         int id= Integer.parseInt(input.nextLine());
-        ContactNumber oldNumber= newContact.getNumber(id);
+        ContactNumber oldNumber= newContact.getNumberById(id);
         System.out.println("type the new number: ");
         String newNumber= input.nextLine();
         newContact.setNumber(id, newNumber);

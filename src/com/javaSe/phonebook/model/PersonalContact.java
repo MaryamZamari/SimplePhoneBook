@@ -9,7 +9,6 @@ public class PersonalContact extends Contact{
         super(id, name, numbers);
         this.surname= capitaliseFirstLetter(surname);
         String nameSurname= surname + "." + name;
-        idTracker.put(id, nameSurname);
         System.out.println("personal contact created");
     }
 

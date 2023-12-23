@@ -1,11 +1,7 @@
 package com.javaSe.phonebook.service;
-
 import com.javaSe.phonebook.model.Contact;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
 
 public class Phonebook {
     private int id;
@@ -23,8 +19,8 @@ public class Phonebook {
     public Phonebook(){}
     public List<Contact> getContactList(){return this.contactList;}
     public void setContactList(int id , Contact contact) {
-        Optional<Contact> c = Optional.ofNullable(this.contactList.get(id));
-        if (c.isPresent()) {
+        Contact c = this.contactList.get(id);
+        if (c != null) {
             this.contactList.set(id, contact);
         } else {
             System.out.println("the contact does not exist. try a valid id!");
@@ -35,11 +31,18 @@ public class Phonebook {
         return idCounter++;
     }
 
+    public Contact getContactById(int id){
+        return contactList.stream()
+                .filter(c -> c.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
     public void removeContact(int id){
-        Optional<Contact> contact= Optional.ofNullable(this.contactList.get(id));
-        if(contact.isPresent()){
+        Contact contact= getContactById(id);
+        if(contact != null){
             this.contactList.remove(contact);
-            System.out.println("contact has been removed!");
+            System.out.println("contact has been removed! updated list : " + this.getContactList());
         }else{
             System.out.println("the contact does not exist! try a valid id!");
         }

@@ -8,13 +8,11 @@ public class ContactNumber {
     private String number;
     private ContactType type;
     private static int idCounter= 1;
-    private Map<Integer, String> idTracker = new HashMap<Integer, String>();
 
     public ContactNumber(int id, String number, ContactType type) {
         this.id= generateUniqueId();
         this.number = number;
         this.type= type;
-        idTracker.put(id , number);
         System.out.println(this.id + " has been assigned to " + this.number + " as Number ID");
     }
 
@@ -43,7 +41,8 @@ public class ContactNumber {
     @Override
     public String toString() {
         return "Numbers{" +
-                "number='" + number + '\'' +
+                "id= " + id +
+                ", number='" + number + '\'' +
                 ", type=" + type +
                 '}';
     }

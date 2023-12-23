@@ -9,7 +9,6 @@ public class BusinessContact extends Contact{
         super(id, name, numbers);
         this.vatNumber= vatNumber;
         String nameFaxNum= vatNumber + "." + name;
-        idTracker.put(id, vatNumber);
     }
 
     public String getVatNumber(){
